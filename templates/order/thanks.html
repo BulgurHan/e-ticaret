@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+	<div>
+		<div class="text-center">
+			<br>
+			<br>
+			<h1 class="text-center my_title">
+				Siparişiniz için teşekkürler...
+			</h1>
+			<br>
+			<br>
+			<p>Sipariş Numaranız: <b>{{ customer_order.id }}</b></p>
+			<br>
+			<p>
+				Siparişiniz ile alakalı tüm bilgileri size mail olarak gönderdik. İyi günler dileriz.
+			</p>
+		</div>
+	</div>
+	<br>
+	<br>
+{% endblock %}

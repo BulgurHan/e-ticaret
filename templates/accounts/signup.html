@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block content %}
+	<div>
+		{% if not form.is_valid %}
+			<div class="mx-auto">
+				<br>
+				<h1 class="my_title text-center">Yeni Kullanıcı Oluştur</h1>
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors  %}
+                        <div class="alert alert-danger">
+
+                            {{ error }}
+                        </div>
+
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+				<br>
+				<div class="col-9 col-sm-9 col-md-6 col-lg-5 mx-auto bg-light">
+					<br>
+					<p>Lütfen aşağıdaki bilgileri doğru ve eksiksiz tamamlayın.</p>
+					<form method="post">
+						{% csrf_token %}
+						<p>{{ form.as_p }}</p>
+						<button type="submit" class="btn btn-secondary">Tamamla</button>
+					</form>
+					<br>
+				</div>
+			</div>
+		{% else %}
+			<div class="mx-auto">
+				<br>
+				<h1 class="my_title text-center">Your account has been successfully created</h1>
+				<br>
+				<div>
+					<p>
+						Dear Customer,
+						<br>
+						<br>
+						Your account has been created and it is ready to use.
+						<br>
+						<a href="{% url 'allProdCat' %}">Continue shopping</a> and enjoy the variety of cushions that we have at the perfect cushion store.
+					</p>
+				</div>
+			</div>
+
+		{% endif %}
+	</div>
+	<br>
+{% endblock %}
+
+

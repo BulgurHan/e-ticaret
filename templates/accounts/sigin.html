@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block content %}
+	<div class="container">
+		<br>
+		<h1 class="my_title text-center">Giriş yap veya Kaydol</h1>
+		<br>
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center my_custom_div">
+				<br>
+				<h2 class="my_title">Üye Değil Misin?</h2>
+				<br>
+				<p>Sipariş durumunu veya geçmişini görmek için lütfen kaydol</p>
+				<br>
+				<a href="{% url 'signup' %}" class="btn btn-secondary">Üye Ol!</a>
+			</div>
+			<div class="col-12 col-sm-12 col-md-12 col-lg-6 bg-light">
+				<div>
+					<br>
+					<h2 class="my_title">Kullanıcı Girişi</h2>
+                {% if messages %}
+                {% for message in messages  %}
+                <div class="alert alert-{{ messages.tags }}" role="alert" aria-live="assertive" aria-atomic="true">
+
+                      {{ message }}
+                     </div>
+                      
+
+                {% endfor %}
+                {% endif %}
+					<form method="post">
+						{% csrf_token %}
+						<p>{{ form.as_p}}</p>
+						<button type="submit" class="btn btn-secondary">Giriş</button>
+					</form>
+					<br>
+				</div>
+				
+			</div>
+		</div>
+		<br>
+	</div>
+	<br>
+{% endblock %}

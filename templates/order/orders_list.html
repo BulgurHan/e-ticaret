@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<br>
+<br>
+<hr>
+
+	<div>
+		<div class="text-center">
+			<br>
+			<h1 class="text-center my_title"> Merhaba {{request.user.username}}. Sipariş geçmişin burada.</h1>
+			<br>
+			{% if order_details %}
+            <br><hr>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Sipariş Numarası</th>
+						<th>Sipariş Tarihi</th>
+						<th>Toplam Tutar</th>
+						<th>Durum</th>
+						<th>Detaylar</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for order in order_details %}
+					<tr>
+						<td>{{ order.id }}</td>
+						<td>{{ order.created|date:"d M Y" }}</td>
+						<td>{{ order.total }}</td>
+						<td><i class="fas fa-check"></i>&nbsp;Tamamlandı</td>
+						<td><a href="{% url 'order_detail' order.id %}">Görüntüle</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+            <br><br><hr>
+			<p>Henüz siparişin yok.<br><br><a href="{% url 'allProdCat' %}" class="btn btn-secondary">Alışverişe Devam Et</a></p>
+			{% endif %}
+            <br><br><hr>
+		</div>
+	</div>
+	<br>
+	<br>
+{% endblock %}

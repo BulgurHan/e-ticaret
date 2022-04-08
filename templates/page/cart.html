@@ -1,0 +1,147 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+	{% if not cart_items %}
+		<div>
+			<div class="text-center">
+				<br>
+				<h1 class="text-center my_title">
+					Sepetinizde ürün yok :(
+				</h1>
+				<br>
+				<p class="text-center">
+					Buradan <a href="{% url 'allProdCat' %}">alışverişe</a> başlayabilirsiniz..
+				</p>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<div class="text-center">
+				<br>
+				<h1 class="text-center my_title">
+					Sepetiniz
+				</h1>
+				<br>
+			</div>
+		</div>
+		<div class="row mx-auto">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+				<table class="table my_custom_table">
+					<thead class="my_custom_thead">
+						<tr>
+							<th colspan="1">
+								Adet
+							</th>
+							<th colspan="1">
+								Ürün Adı
+							</th>
+							<th colspan="1">
+								Adet Fiyatı
+							</th>
+							<th colspan="1">
+								Toplam Fiyat
+							</th>
+							<th colspan="1">
+								Ekle
+							</th>
+							<th colspan="1">
+								Azalt
+							</th>
+							<th colspan="1">
+								Temizle
+							</th>
+
+						</tr>
+						
+					</thead>
+					<tbody>
+						{% for cart_item in cart_items %}
+							<tr>
+								<td>
+									{{cart_item.quantity}}
+								</td>
+								<td class="text-left">
+									{{cart_item.product.name}}
+									
+								</td>
+								<td>
+									{{cart_item.product.price}} TL
+								</td>
+								<td>
+									{{cart_item.sub_total}} TL
+								</td>
+								{% if cart_item.quantity < cart_item.product.stock %}
+									<td>
+										<a href="{% url 'add_cart' cart_item.product.id %}" class="btn btn-info"> + </a>
+									</td>
+                                    <td>
+                                        <a href="{% url 'cart_remove' cart_item.product.id %}" class="btn btn-primary"> - </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'full_remove' cart_item.product.id %}" class='btn btn-danger'>Temizle</a>
+                                    </td>
+								{% else %}
+                                    <td>
+                                        Stoklar {{cart_item.quantity}} adetle sınırlıdır.
+                                    </td>
+									<td>
+										<a href="{% url 'cart_remove' cart_item.product.id %}" class="btn btn-primary"> - </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'full_remove' cart_item.product.id %}" class='btn btn-danger'>Temizle</a>
+									</td>
+									<td></td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				
+			</div> <hr>
+			<div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+				<table class="table my_custom_table">
+					<thead class="my_custom_thead">
+						<tr>
+							<th>
+								Ödeme
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								Lütfen ödeme yapmadan önce sepetinizi kontrol ediniz.
+							</td>
+						</tr>
+						<tr>
+							<td class="text-left">
+								Toplam Tutar: <strong>{{ total }} TL </strong>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="mx-auto">
+					<form action="" method="POST">
+						{% csrf_token %}
+					  <script
+					    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+					    data-key="{{ data_key }}"
+					    data-amount="{{ stripe_total }}"
+					    data-name="Perfect Cushion Shop"
+					    data-description="{{ description }}"
+					    data-image="{% static 'img/logo.png' %}"
+					    data-locale="auto"
+					    data-currency="gbp"
+					    data-shipping-address="true"
+					    data-billing-address="true"
+					    data-zip-code="true">
+					  </script>
+					</form>
+					<a href="{% url 'allProdCat' %}" class="btn btn-secondary ">Alışverişe Devam et</a>
+				</div>
+			</div>
+		</div>
+		<br>
+	{% endif %}
+{% endblock %}
